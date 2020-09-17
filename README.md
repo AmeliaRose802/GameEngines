@@ -22,3 +22,4 @@ func _input(event):
    if event is InputEventMouseMotion:
 	   setLocation(event.position.x, event.position.y)
 ```
+PS. All this code was written by me AmeliaRose802. I have no idea why the commits are showing at @WaterBaby15. That is an old account I made in 9th grade and I didn't even know it still existed. How it ended up being the credentals on my brand new computer is a mystery for the ages
