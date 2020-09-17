@@ -2,12 +2,12 @@
 
 Project code for 4th year game engines class at Champlain College
 
-See Project 1 Vid for a video of this module working in engine. 
+See [This Video](Project%201%20Vid.mp4) for a video of this module working in engine. 
 
 Use the following code inside GoDot after creating a FollowMouseNode to test this project: 
 
 
-```javascript
+```python
 extends FollowMouseNode
 
 
