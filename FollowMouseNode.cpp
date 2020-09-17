@@ -4,17 +4,9 @@ FollowMouseNode::FollowMouseNode(){}
 
 //Bind all your methods used in this class
 void FollowMouseNode::_bind_methods(){
-  ClassDB::bind_method(D_METHOD("add", "a", "b"), &FollowMouseNode::add);
   ClassDB::bind_method(D_METHOD("loadImage", "fileName"), &FollowMouseNode::loadImage);
+  ClassDB::bind_method(D_METHOD("setLocation", "x", "y"), &FollowMouseNode::setLocation);
 }
-
-
-//Custom Functions
-int FollowMouseNode::add(int a, int b) {
-	set_position(Point2(a, b));
-  return a+b;
-}
-
 
 int FollowMouseNode::loadImage(String fileName) {
 	Ref<ImageTexture> tex;
@@ -23,4 +15,8 @@ int FollowMouseNode::loadImage(String fileName) {
 
 	set_texture(imgTex);
 	return error;
+}
+
+void FollowMouseNode::setLocation(int x, int y) {
+	set_position(Point2(x, y));
 }
