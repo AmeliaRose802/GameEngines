@@ -1,12 +1,10 @@
 #include "register_types.h"
 #include "core/class_db.h"
-#include "calculatorRef.h"
-#include "calculatorNode.h"
+#include "FollowMouseNode.h"
 
-void register_calculator_types(){
-	ClassDB::register_class<CalculatorNode>();
-	ClassDB::register_class<CalculatorRef>();
+void register_followMouse_types() {
+	ClassDB::register_class<FollowMouseNode>();
 }
 
-void unregister_calculator_types() {
+void unregister_followMouse_types() {
 }

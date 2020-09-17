@@ -1,20 +1,20 @@
 //insert the Headername here
-#ifndef CALCULATORNODE_H
-#define CALCULATORNODE_H
+#ifndef FOLLOWMOUSENODE_H
+#define FOLLOWMOUSENODE_H
 
 #include "scene/main/node.h"
 #include "scene/2d/node_2d.h"
 #include "scene/2d/sprite.h"
 #include <string>
 
-class CalculatorNode : public Sprite {
-	GDCLASS(CalculatorNode, Sprite);
+class FollowMouseNode : public Sprite {
+	GDCLASS(FollowMouseNode, Sprite);
 
 protected:
   static void _bind_methods();
 
 public:
-  CalculatorNode();
+  FollowMouseNode();
 
   int add(int a, int b);
   int sub(int a, int b);
