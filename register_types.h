@@ -1,5 +1,5 @@
-void register_followMouse_types();
-void unregister_followMouse_types();
+void register_ECSModule_types();
+void unregister_ECSModule_types();
 
 /*
 	void register_MODULNAME_types();

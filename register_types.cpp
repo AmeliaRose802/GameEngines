@@ -1,10 +1,10 @@
 #include "register_types.h"
 #include "core/class_db.h"
-#include "FollowMouseNode.h"
+#include "PongNode.h"
 
-void register_followMouse_types() {
-	ClassDB::register_class<FollowMouseNode>();
+void register_ECSModule_types() {
+	ClassDB::register_class<PongNode>();
 }
 
-void unregister_followMouse_types() {
+void unregister_ECSModule_types() {
 }
