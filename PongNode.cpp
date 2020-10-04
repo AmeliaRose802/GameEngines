@@ -4,7 +4,7 @@
 #include "CollisionComponent.h"
 #include "PhysicsComponent.h"
 #include "UserInputComponent.h"
-
+#include "EventSystem.h"
 
 enum ComponentIDs {
 	TRANSFORM_COMPONENT,
@@ -18,12 +18,13 @@ enum ComponentIDs {
 
 PongNode::PongNode()
 {
+	eventSystem = new EventSystem();
 	paddle = new Entity();
 	ball = new Entity();
 	drawSystem = new DrawSystem();
-	physicsSystem = new PhysicsSystem();
+	physicsSystem = new PhysicsSystem(eventSystem);
 	playerSystem = new PlayerSystem();
-	collsionSystem = new CollisionSystem();
+	collsionSystem = new CollisionSystem(eventSystem);
 
 	ResourceLoader *rl = new ResourceLoader();
 	Ref<PackedScene> paddleScene = rl->load("res://PlayerPaddle.tscn");
@@ -85,7 +86,7 @@ void PongNode::updateSystems(float deltaTime)
 
 		//Make a list of all collidable entities
 		if (it->second.count(TRANSFORM_COMPONENT) && it->second.count(COLLISION_COMPONENT)) {
-			collsionSystem->AddColldable(it->first, static_cast<TransformComponent *>(it->second[TRANSFORM_COMPONENT]));
+			collsionSystem->addColldable(it->first, static_cast<TransformComponent *>(it->second[TRANSFORM_COMPONENT]));
 		}
 
 	

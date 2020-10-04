@@ -4,6 +4,8 @@
 #include "Component.h"
 #include "Entity.h"
 
+class Event;
+
 class System {
 protected:
 	//std::map<int, Component *> components;
@@ -11,7 +13,7 @@ protected:
 
 public:
 	System() {}
-
+	virtual void receiveEvent(Event *event){}; 
 	/*
 	virtual void removeComponent(int id);
 	virtual void addComponent(int id, Component * component);

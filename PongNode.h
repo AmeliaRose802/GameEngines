@@ -13,9 +13,12 @@
 #include "System.h"
 #include "Entity.h"
 #include "CollisionSystem.h"
+
 #include <string>
 #include <vector>
 #include <map>
+
+class EventSystem;
 
 class PongNode : public Node2D {
 	GDCLASS(PongNode, Node2D);
@@ -23,6 +26,7 @@ class PongNode : public Node2D {
 private:
 	Entity * paddle;
 	Entity *ball;
+	EventSystem *eventSystem;
 	std::map<int, std::map<int, Component *>> entitiesAndComponents;
 	DrawSystem *drawSystem;
 	PhysicsSystem *physicsSystem;
