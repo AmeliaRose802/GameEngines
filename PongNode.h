@@ -6,6 +6,7 @@
 #include "scene/2d/node_2d.h"
 #include "scene/2d/sprite.h"
 #include "PhysicsSystem.h"
+#include "PlayerSystem.h"
 #include "../../core/io/resource_loader.h"
 #include "../../scene/resources/packed_scene.h"
 #include "DrawSystem.h"
@@ -24,6 +25,7 @@ private:
 	std::map<int, std::map<int, Component *>> entitiesAndComponents;
 	DrawSystem *drawSystem;
 	PhysicsSystem *physicsSystem;
+	PlayerSystem *playerSystem;
 
 protected:
   static void _bind_methods();

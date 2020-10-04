@@ -12,6 +12,7 @@ enum ComponentIDs {
 	COLLISION_COMPONENT,
 	USER_INPUT_COMPONENT,
 	PHYSICS_COMPONENT,
+	PLAYER_COMPONENT,
 	NUM_COMPONENTS,
 };
 
@@ -21,6 +22,7 @@ PongNode::PongNode()
 	ball = new Entity();
 	drawSystem = new DrawSystem();
 	physicsSystem = new PhysicsSystem();
+	playerSystem = new PlayerSystem();
 
 	ResourceLoader *rl = new ResourceLoader();
 	Ref<PackedScene> paddleScene = rl->load("res://PlayerPaddle.tscn");
@@ -39,12 +41,13 @@ PongNode::PongNode()
 	entitiesAndComponents[paddle->getID()][COLLISION_COMPONENT] = new CollisionComponent();
 	entitiesAndComponents[paddle->getID()][USER_INPUT_COMPONENT] = new UserInputComponent();
 	entitiesAndComponents[paddle->getID()][PHYSICS_COMPONENT] = new PhysicsComponent(Vector2(0,0), Vector2(0,0));
+	entitiesAndComponents[paddle->getID()][PLAYER_COMPONENT] = new PlayerComponent(Vector2(5, 5));
 
 
 	entitiesAndComponents[ball->getID()][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(50, 80));
 	entitiesAndComponents[ball->getID()][DRAW_COMPONENT] = new DrawComponent(ballSprite);
 	entitiesAndComponents[ball->getID()][COLLISION_COMPONENT] = new CollisionComponent();
-	entitiesAndComponents[ball->getID()][PHYSICS_COMPONENT] = new PhysicsComponent(Vector2(80, 80), Vector2(5, 5));
+	entitiesAndComponents[ball->getID()][PHYSICS_COMPONENT] = new PhysicsComponent(Vector2(100, 100), Vector2(0, 0));
 }
 
 //Bind all your methods used in this class
@@ -71,9 +74,8 @@ void PongNode::updateSystems(float deltaTime)
 			drawSystem->drawEntity(static_cast<DrawComponent *>(it->second[DRAW_COMPONENT]), static_cast<TransformComponent *>(it->second[TRANSFORM_COMPONENT]));
 		}
 		//If it has a userInput system, a transform and a physics system then allow the user to control the object
-		if (it->second.count(PHYSICS_COMPONENT) && it->second.count(TRANSFORM_COMPONENT) && it->second.count(USER_INPUT_COMPONENT)) {
-			//TODO: Implement this
-			
+		if (it->second.count(TRANSFORM_COMPONENT) && it->second.count(PLAYER_COMPONENT)) {
+			playerSystem->ApplyUserInput(static_cast<TransformComponent *>(it->second[TRANSFORM_COMPONENT]), static_cast<PlayerComponent *>(it->second[PLAYER_COMPONENT]));
 		}
 		//If is has a position and physics then have it move
 		if (it->second.count(PHYSICS_COMPONENT) && it->second.count(TRANSFORM_COMPONENT)) {
