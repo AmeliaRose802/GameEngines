@@ -8,5 +8,7 @@ public:
 	TranformSystem() {
 
 	}
+
+
 	void update(float deltaTime);
 };

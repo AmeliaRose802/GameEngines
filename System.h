@@ -6,15 +6,19 @@
 
 class System {
 protected:
-	std::map<int, Component *> components;
-	std::vector<Entity *> entities;
+	//std::map<int, Component *> components;
+	//std::vector<Entity *> entities;
 
 public:
 	System() {}
+
+	/*
 	virtual void removeComponent(int id);
 	virtual void addComponent(int id, Component * component);
-	void regesterEntity(Entity * entity);
+	void regesterEntity(Entity * entity);*/
+
+	/*
 	virtual Component* getComponent(int id);
-	virtual void update(float deltaTime) = 0;
+	virtual void update(float deltaTime) = 0;*/
 	
 };

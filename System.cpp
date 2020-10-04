@@ -1,6 +1,6 @@
 #include "System.h"
 
-
+/*
 void System::removeComponent(int id) {
 	components.erase(id);
 }
@@ -16,3 +16,4 @@ Component *System::getComponent(int id) {
 void System::regesterEntity(Entity* entity) {
 	entities.push_back(entity);
 }
+*/
