@@ -5,16 +5,12 @@
 #include "PhysicsComponent.h"
 #include "UserInputComponent.h"
 #include "EventSystem.h"
+#include "PhysicsSystem.h"
+#include "PlayerSystem.h"
+#include "DrawSystem.h"
+#include "CollisionSystem.h"
 
-enum ComponentIDs {
-	TRANSFORM_COMPONENT,
-	DRAW_COMPONENT,
-	COLLISION_COMPONENT,
-	USER_INPUT_COMPONENT,
-	PHYSICS_COMPONENT,
-	PLAYER_COMPONENT,
-	NUM_COMPONENTS,
-};
+#include "Enums.h"
 
 PongNode::PongNode()
 {
@@ -22,7 +18,7 @@ PongNode::PongNode()
 	paddle = new Entity();
 	ball = new Entity();
 	drawSystem = new DrawSystem();
-	physicsSystem = new PhysicsSystem(eventSystem);
+	physicsSystem = new PhysicsSystem(eventSystem, this);
 	playerSystem = new PlayerSystem();
 	collsionSystem = new CollisionSystem(eventSystem);
 
@@ -38,7 +34,7 @@ PongNode::PongNode()
 
 
 
-	entitiesAndComponents[paddle->getID()][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(10, 200), Vector2(100, 20));
+	entitiesAndComponents[paddle->getID()][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(10, 200), Vector2(20, 100));
 	entitiesAndComponents[paddle->getID()][DRAW_COMPONENT] = new DrawComponent(paddleSprite);
 	entitiesAndComponents[paddle->getID()][COLLISION_COMPONENT] = new CollisionComponent();
 	entitiesAndComponents[paddle->getID()][USER_INPUT_COMPONENT] = new UserInputComponent();
@@ -96,3 +92,14 @@ void PongNode::updateSystems(float deltaTime)
 	collsionSystem->update();
 
 }
+
+Component* PongNode::getComponent(int entityID, ComponentID componentID) {
+	if (entitiesAndComponents[entityID].count(componentID) > 0) {
+		return entitiesAndComponents[entityID][componentID];
+	} else {
+		return NULL;
+	}
+	
+}
+
+//TODO: DESTRUCTOR

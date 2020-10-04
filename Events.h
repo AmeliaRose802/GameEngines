@@ -14,10 +14,11 @@ public:
 };
 
 class CollisionEvent : public Event {
-	int aID;
-	int bID;
+	
 
 	public:
+	int aID;
+	int bID;
 	CollisionEvent(int idA, int idB) :
 			Event(EventType::EVENT_COLLISION)
 	{

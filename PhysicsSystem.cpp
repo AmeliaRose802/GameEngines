@@ -1,9 +1,12 @@
 #include "PhysicsSystem.h"
 #include "EventSystem.h"
+#include "PongNode.h"
+#include "Enums.h"
 
 
-PhysicsSystem::PhysicsSystem(EventSystem *eventSystem) {
+PhysicsSystem::PhysicsSystem(EventSystem *eventSystem, PongNode * aPongNode) {
 	eventSystem->subscribe(EventType::EVENT_COLLISION, this);
+	pongNode = aPongNode;
 }
 
 void PhysicsSystem::update(float deltaTime, PhysicsComponent *physicsComponent, TransformComponent *transformComponent) {
@@ -26,4 +29,24 @@ void PhysicsSystem::update(float deltaTime, PhysicsComponent *physicsComponent, 
 
 void PhysicsSystem::receiveEvent(Event *event) {
 	std::cout << "Physics system receved event\n";
+	switch (event->getType()) {
+		case EventType::EVENT_COLLISION:
+			ReflectCollision(static_cast<CollisionEvent *>(event));
+			break;
+	}
+	
 };
+
+void PhysicsSystem::ReflectCollision(CollisionEvent *event) {
+	PhysicsComponent *aPhysicsComponent = static_cast<PhysicsComponent *>(pongNode->getComponent(event->aID, ComponentID::PHYSICS_COMPONENT));
+	if (aPhysicsComponent) {
+		aPhysicsComponent->velocity = -aPhysicsComponent->velocity;
+		aPhysicsComponent->acceleration = -aPhysicsComponent->acceleration;
+	}
+
+	PhysicsComponent *bPhysicsComponent = static_cast<PhysicsComponent *>(pongNode->getComponent(event->bID, ComponentID::PHYSICS_COMPONENT));
+	if (bPhysicsComponent) {
+		bPhysicsComponent->velocity = -bPhysicsComponent->velocity;
+		bPhysicsComponent->acceleration = -bPhysicsComponent->acceleration;
+	}
+}
