@@ -5,7 +5,10 @@
 class TransformComponent : public Component {
 public:
 	Vector2 location;
-	TransformComponent(Vector2 loc) {
+	Vector2 size;
+
+	TransformComponent(Vector2 loc, Vector2 siz) {
 		location = loc;
+		size = siz;
 	}
 };

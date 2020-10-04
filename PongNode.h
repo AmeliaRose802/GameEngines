@@ -12,6 +12,7 @@
 #include "DrawSystem.h"
 #include "System.h"
 #include "Entity.h"
+#include "CollisionSystem.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -26,6 +27,7 @@ private:
 	DrawSystem *drawSystem;
 	PhysicsSystem *physicsSystem;
 	PlayerSystem *playerSystem;
+	CollisionSystem *collsionSystem;
 
 protected:
   static void _bind_methods();

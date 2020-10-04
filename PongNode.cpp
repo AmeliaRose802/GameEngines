@@ -23,6 +23,7 @@ PongNode::PongNode()
 	drawSystem = new DrawSystem();
 	physicsSystem = new PhysicsSystem();
 	playerSystem = new PlayerSystem();
+	collsionSystem = new CollisionSystem();
 
 	ResourceLoader *rl = new ResourceLoader();
 	Ref<PackedScene> paddleScene = rl->load("res://PlayerPaddle.tscn");
@@ -36,7 +37,7 @@ PongNode::PongNode()
 
 
 
-	entitiesAndComponents[paddle->getID()][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(10, 200));
+	entitiesAndComponents[paddle->getID()][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(10, 200), Vector2(100, 20));
 	entitiesAndComponents[paddle->getID()][DRAW_COMPONENT] = new DrawComponent(paddleSprite);
 	entitiesAndComponents[paddle->getID()][COLLISION_COMPONENT] = new CollisionComponent();
 	entitiesAndComponents[paddle->getID()][USER_INPUT_COMPONENT] = new UserInputComponent();
@@ -44,10 +45,10 @@ PongNode::PongNode()
 	entitiesAndComponents[paddle->getID()][PLAYER_COMPONENT] = new PlayerComponent(Vector2(5, 5));
 
 
-	entitiesAndComponents[ball->getID()][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(50, 80));
+	entitiesAndComponents[ball->getID()][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(200, 200), Vector2(50, 50));
 	entitiesAndComponents[ball->getID()][DRAW_COMPONENT] = new DrawComponent(ballSprite);
 	entitiesAndComponents[ball->getID()][COLLISION_COMPONENT] = new CollisionComponent();
-	entitiesAndComponents[ball->getID()][PHYSICS_COMPONENT] = new PhysicsComponent(Vector2(100, 100), Vector2(0, 0));
+	entitiesAndComponents[ball->getID()][PHYSICS_COMPONENT] = new PhysicsComponent(Vector2(-200, 0), Vector2(0, 0));
 }
 
 //Bind all your methods used in this class
@@ -55,7 +56,6 @@ void PongNode::_bind_methods()
 {
   ClassDB::bind_method(D_METHOD("updateSystems", "deltaTime"), &PongNode::updateSystems);
   ClassDB::bind_method(D_METHOD("_process", "delta"), &PongNode::_process);
-  
 }
 
 //TODO: Figure out why this is not being called
@@ -67,6 +67,7 @@ void PongNode::_process(float delta) {
 void PongNode::updateSystems(float deltaTime)
 {
 	std::map<int, std::map<int, Component *>>::iterator it;
+	
 	for (it = entitiesAndComponents.begin(); it != entitiesAndComponents.end(); ++it) {
 
 		//If it has both a draw and a transform component then tell the draw system to draw it?
@@ -82,7 +83,15 @@ void PongNode::updateSystems(float deltaTime)
 			physicsSystem->update(deltaTime, static_cast<PhysicsComponent *>(it->second[PHYSICS_COMPONENT]), static_cast<TransformComponent *>(it->second[TRANSFORM_COMPONENT]));
 		}
 
-		//TODO: How the fuck does collison work
+		//Make a list of all collidable entities
+		if (it->second.count(TRANSFORM_COMPONENT) && it->second.count(COLLISION_COMPONENT)) {
+			collsionSystem->AddColldable(it->first, static_cast<TransformComponent *>(it->second[TRANSFORM_COMPONENT]));
+		}
+
 	
 	}
+
+	//Check for collsion between the collidables
+	collsionSystem->update();
+
 }
