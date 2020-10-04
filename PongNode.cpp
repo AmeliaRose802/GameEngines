@@ -34,17 +34,17 @@ PongNode::PongNode()
 
 
 
-	//entitiesAndComponents[paddle->getID()][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(100, 100));
-	//entitiesAndComponents[paddle->getID()][DRAW_COMPONENT] = new DrawComponent(paddleSprite);
-	//entitiesAndComponents[paddle->getID()][COLLISION_COMPONENT] = new CollisionComponent();
-	//entitiesAndComponents[paddle->getID()][USER_INPUT_COMPONENT] = new UserInputComponent();
-	//entitiesAndComponents[paddle->getID()][PHYSICS_COMPONENT] = new PhysicsComponent(Vector2(0,0), Vector2(0,0));
+	entitiesAndComponents[paddle->getID()][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(10, 200));
+	entitiesAndComponents[paddle->getID()][DRAW_COMPONENT] = new DrawComponent(paddleSprite);
+	entitiesAndComponents[paddle->getID()][COLLISION_COMPONENT] = new CollisionComponent();
+	entitiesAndComponents[paddle->getID()][USER_INPUT_COMPONENT] = new UserInputComponent();
+	entitiesAndComponents[paddle->getID()][PHYSICS_COMPONENT] = new PhysicsComponent(Vector2(0,0), Vector2(0,0));
 
 
-	entitiesAndComponents[ball->getID()][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(450, 100));
-	entitiesAndComponents[ball->getID()][DRAW_COMPONENT] = new DrawComponent(paddleSprite);
+	entitiesAndComponents[ball->getID()][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(50, 80));
+	entitiesAndComponents[ball->getID()][DRAW_COMPONENT] = new DrawComponent(ballSprite);
 	entitiesAndComponents[ball->getID()][COLLISION_COMPONENT] = new CollisionComponent();
-	entitiesAndComponents[ball->getID()][PHYSICS_COMPONENT] = new PhysicsComponent(Vector2(30, 0), Vector2(5, 0));
+	entitiesAndComponents[ball->getID()][PHYSICS_COMPONENT] = new PhysicsComponent(Vector2(80, 80), Vector2(5, 5));
 }
 
 //Bind all your methods used in this class

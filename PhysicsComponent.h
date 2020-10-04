@@ -10,5 +10,7 @@ public:
 	PhysicsComponent(Vector2 vel, Vector2 acc) {
 		velocity = vel;
 		acceleration = acc;
+
+		
 	}
 };
