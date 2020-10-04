@@ -5,6 +5,9 @@
 #include "scene/main/node.h"
 #include "scene/2d/node_2d.h"
 #include "scene/2d/sprite.h"
+#include "PhysicsSystem.h"
+#include "../../core/io/resource_loader.h"
+#include "../../scene/resources/packed_scene.h"
 #include "DrawSystem.h"
 #include "System.h"
 #include "Entity.h"
@@ -17,8 +20,10 @@ class PongNode : public Node2D {
 
 private:
 	Entity * paddle;
+	Entity *ball;
 	std::map<int, std::map<int, Component *>> entitiesAndComponents;
 	DrawSystem *drawSystem;
+	PhysicsSystem *physicsSystem;
 
 protected:
   static void _bind_methods();
@@ -26,7 +31,7 @@ protected:
 public:
   PongNode();
 
-  
+  void _process(float delta);
   void updateSystems(float deltaTime);
 
 };

@@ -4,14 +4,14 @@
 
 class DrawComponent : public Component {
 private:
-	Sprite * mSprite;
+	Sprite* mSprite;
 
 public:
-	DrawComponent(Sprite * sprite) {
+	DrawComponent(Sprite* sprite) {
 		mSprite = sprite;
 	}
 
-	Sprite * getSprite() {
+	Sprite* getSprite() {
 		return mSprite;
 	}
 };

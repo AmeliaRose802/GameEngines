@@ -5,6 +5,7 @@
 #include "PhysicsComponent.h"
 #include "UserInputComponent.h"
 
+
 enum ComponentIDs {
 	TRANSFORM_COMPONENT,
 	DRAW_COMPONENT,
@@ -17,29 +18,47 @@ enum ComponentIDs {
 PongNode::PongNode()
 {
 	paddle = new Entity();
+	ball = new Entity();
 	drawSystem = new DrawSystem();
+	physicsSystem = new PhysicsSystem();
+
+	ResourceLoader *rl = new ResourceLoader();
+	Ref<PackedScene> paddleScene = rl->load("res://PlayerPaddle.tscn");
+	Ref<PackedScene> ballScene = rl->load("res://Ball.tscn");
+
+	Sprite *paddleSprite = (Sprite *)(paddleScene->instance());
+	add_child(paddleSprite);
+
+	Sprite *ballSprite = (Sprite *)(ballScene->instance());
+	add_child(ballSprite);
 
 
-	Ref<ImageTexture> tex;
-	ImageTexture *imgTex = new ImageTexture();
-	
-	Error error = imgTex->load("res://icon.png");
 
-	Sprite *sprite = new Sprite();
-	sprite->set_texture(imgTex);
-	add_child(sprite, true);
+	//entitiesAndComponents[paddle->getID()][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(100, 100));
+	//entitiesAndComponents[paddle->getID()][DRAW_COMPONENT] = new DrawComponent(paddleSprite);
+	//entitiesAndComponents[paddle->getID()][COLLISION_COMPONENT] = new CollisionComponent();
+	//entitiesAndComponents[paddle->getID()][USER_INPUT_COMPONENT] = new UserInputComponent();
+	//entitiesAndComponents[paddle->getID()][PHYSICS_COMPONENT] = new PhysicsComponent(Vector2(0,0), Vector2(0,0));
 
-	entitiesAndComponents[paddle->getID()][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(100, 100));
-	entitiesAndComponents[paddle->getID()][DRAW_COMPONENT] = new DrawComponent(sprite);
-	entitiesAndComponents[paddle->getID()][COLLISION_COMPONENT] = new CollisionComponent();
-	entitiesAndComponents[paddle->getID()][USER_INPUT_COMPONENT] = new UserInputComponent();
-	entitiesAndComponents[paddle->getID()][PHYSICS_COMPONENT] = new PhysicsComponent();
+
+	entitiesAndComponents[ball->getID()][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(450, 100));
+	entitiesAndComponents[ball->getID()][DRAW_COMPONENT] = new DrawComponent(paddleSprite);
+	entitiesAndComponents[ball->getID()][COLLISION_COMPONENT] = new CollisionComponent();
+	entitiesAndComponents[ball->getID()][PHYSICS_COMPONENT] = new PhysicsComponent(Vector2(30, 0), Vector2(5, 0));
 }
 
 //Bind all your methods used in this class
 void PongNode::_bind_methods()
 {
   ClassDB::bind_method(D_METHOD("updateSystems", "deltaTime"), &PongNode::updateSystems);
+  ClassDB::bind_method(D_METHOD("_process", "delta"), &PongNode::_process);
+  
+}
+
+//TODO: Figure out why this is not being called
+void PongNode::_process(float delta) {
+	std::cout << "Process being called?\n";
+	updateSystems(delta);
 }
 
 void PongNode::updateSystems(float deltaTime)
@@ -54,11 +73,11 @@ void PongNode::updateSystems(float deltaTime)
 		//If it has a userInput system, a transform and a physics system then allow the user to control the object
 		if (it->second.count(PHYSICS_COMPONENT) && it->second.count(TRANSFORM_COMPONENT) && it->second.count(USER_INPUT_COMPONENT)) {
 			//TODO: Implement this
-			std::cout << "User input not implemented\n";
+			
 		}
 		//If is has a position and physics then have it move
 		if (it->second.count(PHYSICS_COMPONENT) && it->second.count(TRANSFORM_COMPONENT)) {
-			//TODO: Make the fucker move
+			physicsSystem->update(deltaTime, static_cast<PhysicsComponent *>(it->second[PHYSICS_COMPONENT]), static_cast<TransformComponent *>(it->second[TRANSFORM_COMPONENT]));
 		}
 
 		//TODO: How the fuck does collison work
