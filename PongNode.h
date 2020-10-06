@@ -48,6 +48,7 @@ public:
   void _process(float delta);
   void updateSystems(float deltaTime);
   Component *getComponent(int entityID, ComponentID componentID);
+  void printMap();
 
 };
 

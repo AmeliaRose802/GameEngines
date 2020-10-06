@@ -21,8 +21,8 @@ PongNode::PongNode()
 	drawSystem = new DrawSystem();
 	physicsSystem = new PhysicsSystem(eventSystem, this);
 	playerSystem = new PlayerSystem();
-	collsionSystem = new CollisionSystem(eventSystem);
-	//ballSystem = new BallSystem(eventSystem, this);
+	collsionSystem = new CollisionSystem(eventSystem, this);
+	ballSystem = new BallSystem(eventSystem, this);
 
 	ResourceLoader *rl = new ResourceLoader();
 	Ref<PackedScene> paddleScene = rl->load("res://PlayerPaddle.tscn");
@@ -67,7 +67,6 @@ void PongNode::_process(float delta) {
 void PongNode::updateSystems(float deltaTime)
 {
 	std::map<int, std::map<int, Component *>>::iterator it;
-	
 	for (it = entitiesAndComponents.begin(); it != entitiesAndComponents.end(); ++it) {
 
 		//If it has both a draw and a transform component then tell the draw system to draw it?
@@ -82,7 +81,6 @@ void PongNode::updateSystems(float deltaTime)
 		if (it->second.count(PHYSICS_COMPONENT) && it->second.count(TRANSFORM_COMPONENT)) {
 			physicsSystem->update(deltaTime, static_cast<PhysicsComponent *>(it->second[PHYSICS_COMPONENT]), static_cast<TransformComponent *>(it->second[TRANSFORM_COMPONENT]));
 		}
-
 		//Make a list of all collidable entities
 		if (it->second.count(TRANSFORM_COMPONENT) && it->second.count(COLLISION_COMPONENT)) {
 			collsionSystem->checkWallCollision(it->first, static_cast<TransformComponent *>(it->second[TRANSFORM_COMPONENT]));
@@ -98,15 +96,26 @@ void PongNode::updateSystems(float deltaTime)
 }
 
 Component* PongNode::getComponent(int entityID, ComponentID componentID) {
-	std::cout << "Entity ID: " << entityID << "componentID " << componentID << "\n";
-	if (entitiesAndComponents.count(entityID) > 0 && entitiesAndComponents[entityID].count(componentID) > 0) {
-		std::cout << "Inside if statement\n";
-		return entitiesAndComponents[entityID][componentID];
-	} else {
-		std::cout << "Returning null\n";
-		return NULL;
-	}
+	if (entitiesAndComponents.count(entityID) > 0) {
+		if (entitiesAndComponents[entityID].count(componentID) > 0) {
+			return entitiesAndComponents[entityID][componentID];
+			}
+		}
 	
+	
+	return NULL;
 }
 
 //TODO: DESTRUCTOR
+
+void PongNode::printMap() {
+	std::map<int, std::map<int, Component *> >::iterator it;
+	for (it = entitiesAndComponents.begin(); it != entitiesAndComponents.end(); ++it) {
+		std::cout << "Key: " << it->first << "\n";
+		std::map<int, Component *>::iterator it2;
+		for (it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
+			std::cout << "Key: " << it2->first << " Value: " << it2->second << "\n";
+		}
+	}
+
+}

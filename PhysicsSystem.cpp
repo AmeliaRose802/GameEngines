@@ -30,7 +30,6 @@ void PhysicsSystem::update(float deltaTime, PhysicsComponent *physicsComponent, 
 }
 
 void PhysicsSystem::receiveEvent(Event *event) {
-	std::cout << "Physics system receved event\n";
 	switch (event->getType()) {
 		case EventType::EVENT_COLLISION:
 			ReflectCollision(static_cast<CollisionEvent *>(event));
@@ -43,12 +42,13 @@ void PhysicsSystem::receiveEvent(Event *event) {
 
 void PhysicsSystem::ReflectWallCollision(WallCollisionEvent *event) {
 	PhysicsComponent * physicsComponent = static_cast<PhysicsComponent*>(pongNode->getComponent(event->entityID, PHYSICS_COMPONENT));
-	std::cout << "Hit a wall\n";
+	
+	//std::cout << "Hit a wall\n";
 	if (physicsComponent != NULL) {
 		if (event->wallLoc == WALL_LEFT || event->wallLoc == WALL_RIGHT) {
-			std::cout << "Hit left or right wall\n";
-			std::cout << "Velocity: x" << physicsComponent->velocity.x << " y: " << physicsComponent->velocity.y << "\n";
-			std::cout << "Acc: x" << physicsComponent->acceleration.x << " y: " << physicsComponent->acceleration.y << "\n";
+			//std::cout << "Hit left or right wall\n";
+			//std::cout << "Velocity: x" << physicsComponent->velocity.x << " y: " << physicsComponent->velocity.y << "\n";
+			//std::cout << "Acc: x" << physicsComponent->acceleration.x << " y: " << physicsComponent->acceleration.y << "\n";
 			physicsComponent->velocity.x = -physicsComponent->velocity.x;
 			physicsComponent->acceleration.x = -physicsComponent->acceleration.x;
 		}

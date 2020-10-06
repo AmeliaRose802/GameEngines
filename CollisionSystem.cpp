@@ -1,9 +1,12 @@
 #include "CollisionSystem.h"
 #include "EventSystem.h"
+#include "PongNode.h"
+#include <modules\ECSModule\PhysicsComponent.h>
+#include "Events.h"
 
-
-CollisionSystem::CollisionSystem(EventSystem * globalEventSystem){
+CollisionSystem::CollisionSystem(EventSystem * globalEventSystem, PongNode * thePongNode){
 	eventSystem = globalEventSystem;
+	pongNode = thePongNode;
 };
 
 void CollisionSystem::addColldable(int id, TransformComponent *transformComponent) {
@@ -44,6 +47,8 @@ void CollisionSystem::checkWallCollision(int id, TransformComponent* transformCo
 
 //https://www.geeksforgeeks.org/find-two-rectangles-overlap/
 bool CollisionSystem::checkCollision(TransformComponent *a, TransformComponent *b) {
+
+	PhysicsComponent *physicsComponent2 = static_cast<PhysicsComponent *>(pongNode->getComponent(0, PHYSICS_COMPONENT));
 	if (a->location.x >= b->location.x + b->size.x || b->location.x >= a->location.x + a->size.x) {
 		return false;
 	}
