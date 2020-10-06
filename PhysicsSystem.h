@@ -2,6 +2,7 @@
 #include "PhysicsComponent.h"
 #include "System.h"
 #include "TransformComponent.h"
+#include "Events.h"
 
 
 class EventSystem;
@@ -10,7 +11,7 @@ class CollisionEvent;
 
 class PhysicsSystem : public System {
 
-	const Vector2 SCREEN_SIZE = Vector2(1020, 600);
+	
 	PongNode *pongNode;
 
 public:
@@ -20,5 +21,7 @@ public:
 
 	void receiveEvent(Event *event);
 
+
+	void ReflectWallCollision(WallCollisionEvent *event);
 	void ReflectCollision(CollisionEvent *event);
 };

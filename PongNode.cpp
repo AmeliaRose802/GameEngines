@@ -9,6 +9,7 @@
 #include "PlayerSystem.h"
 #include "DrawSystem.h"
 #include "CollisionSystem.h"
+#include "BallSystem.h"
 
 #include "Enums.h"
 
@@ -21,6 +22,7 @@ PongNode::PongNode()
 	physicsSystem = new PhysicsSystem(eventSystem, this);
 	playerSystem = new PlayerSystem();
 	collsionSystem = new CollisionSystem(eventSystem);
+	//ballSystem = new BallSystem(eventSystem, this);
 
 	ResourceLoader *rl = new ResourceLoader();
 	Ref<PackedScene> paddleScene = rl->load("res://PlayerPaddle.tscn");
@@ -46,6 +48,7 @@ PongNode::PongNode()
 	entitiesAndComponents[ball->getID()][DRAW_COMPONENT] = new DrawComponent(ballSprite);
 	entitiesAndComponents[ball->getID()][COLLISION_COMPONENT] = new CollisionComponent();
 	entitiesAndComponents[ball->getID()][PHYSICS_COMPONENT] = new PhysicsComponent(Vector2(-200, 0), Vector2(0, 0));
+	entitiesAndComponents[ball->getID()][LOSE_COMPONENT] = new LoseComponent(WALL_LEFT);
 }
 
 //Bind all your methods used in this class
@@ -82,6 +85,7 @@ void PongNode::updateSystems(float deltaTime)
 
 		//Make a list of all collidable entities
 		if (it->second.count(TRANSFORM_COMPONENT) && it->second.count(COLLISION_COMPONENT)) {
+			collsionSystem->checkWallCollision(it->first, static_cast<TransformComponent *>(it->second[TRANSFORM_COMPONENT]));
 			collsionSystem->addColldable(it->first, static_cast<TransformComponent *>(it->second[TRANSFORM_COMPONENT]));
 		}
 
@@ -94,9 +98,12 @@ void PongNode::updateSystems(float deltaTime)
 }
 
 Component* PongNode::getComponent(int entityID, ComponentID componentID) {
-	if (entitiesAndComponents[entityID].count(componentID) > 0) {
+	std::cout << "Entity ID: " << entityID << "componentID " << componentID << "\n";
+	if (entitiesAndComponents.count(entityID) > 0 && entitiesAndComponents[entityID].count(componentID) > 0) {
+		std::cout << "Inside if statement\n";
 		return entitiesAndComponents[entityID][componentID];
 	} else {
+		std::cout << "Returning null\n";
 		return NULL;
 	}
 	

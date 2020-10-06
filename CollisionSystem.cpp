@@ -26,6 +26,22 @@ void CollisionSystem::update() {
 	collidableTransforms.clear();
 }
 
+void CollisionSystem::checkWallCollision(int id, TransformComponent* transformComponent) {
+	if (transformComponent->location.x > SCREEN_SIZE.x) {
+		eventSystem->dispatchEvent(new WallCollisionEvent(WALL_RIGHT, id));
+	}
+	else if (transformComponent->location.x < 20) {
+		eventSystem->dispatchEvent(new WallCollisionEvent(WALL_LEFT, id));
+	}
+
+	if (transformComponent->location.y > SCREEN_SIZE.y) {
+		eventSystem->dispatchEvent(new WallCollisionEvent(WALL_BOTTOM, id));
+	}
+	else if (transformComponent->location.y < 20) {
+		eventSystem->dispatchEvent(new WallCollisionEvent(WALL_TOP, id));
+	}
+}
+
 //https://www.geeksforgeeks.org/find-two-rectangles-overlap/
 bool CollisionSystem::checkCollision(TransformComponent *a, TransformComponent *b) {
 	if (a->location.x >= b->location.x + b->size.x || b->location.x >= a->location.x + a->size.x) {

@@ -7,6 +7,7 @@ class EventSystem;
 
 class CollisionSystem : public System {
 private:
+	const Vector2 SCREEN_SIZE = Vector2(1020, 600);
 	std::vector<TransformComponent *> collidableTransforms;
 	std::vector<int> collidableEntities;
 	EventSystem *eventSystem;
@@ -15,6 +16,7 @@ public:
 	CollisionSystem(EventSystem *eventSystem);
 
 	void addColldable(int id, TransformComponent *transformComponent);
+	void checkWallCollision(int id, TransformComponent *transformComponent);
 
 	void update();
 

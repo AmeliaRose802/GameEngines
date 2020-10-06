@@ -23,6 +23,7 @@ class DrawSystem;
 class PlayerSystem;
 class CollisionSystem;
 class EventSystem;
+class BallSystem;
 
 class PongNode : public Node2D {
 	GDCLASS(PongNode, Node2D);
@@ -36,6 +37,7 @@ private:
 	PhysicsSystem *physicsSystem;
 	PlayerSystem *playerSystem;
 	CollisionSystem *collsionSystem;
+	BallSystem *ballSystem;
 
 protected:
   static void _bind_methods();

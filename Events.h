@@ -26,3 +26,16 @@ class CollisionEvent : public Event {
 		bID = idB;
 	};
 };
+
+
+class WallCollisionEvent : public Event {
+
+public:
+	WallLocation wallLoc;
+	int entityID;
+	WallCollisionEvent(WallLocation loc, int id) :
+			Event(EventType::EVENT_WALL_COLLISON) {
+		wallLoc = loc;
+		entityID = id;
+	};
+};
