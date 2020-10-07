@@ -15,6 +15,10 @@
 
 PongNode::PongNode()
 {
+	init();
+}
+
+void PongNode::init() {
 	eventSystem = new EventSystem();
 	paddle = new Entity();
 	ball = new Entity();
@@ -34,20 +38,16 @@ PongNode::PongNode()
 	Sprite *ballSprite = (Sprite *)(ballScene->instance());
 	add_child(ballSprite);
 
-
-
-	entitiesAndComponents[paddle->getID()][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(10, 200), Vector2(20, 100));
+	entitiesAndComponents[paddle->getID()][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(30, 200), Vector2(20, 130));
 	entitiesAndComponents[paddle->getID()][DRAW_COMPONENT] = new DrawComponent(paddleSprite);
 	entitiesAndComponents[paddle->getID()][COLLISION_COMPONENT] = new CollisionComponent();
 	entitiesAndComponents[paddle->getID()][USER_INPUT_COMPONENT] = new UserInputComponent();
-	entitiesAndComponents[paddle->getID()][PHYSICS_COMPONENT] = new PhysicsComponent(Vector2(0,0), Vector2(0,0));
 	entitiesAndComponents[paddle->getID()][PLAYER_COMPONENT] = new PlayerComponent(Vector2(5, 5));
-
 
 	entitiesAndComponents[ball->getID()][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(200, 200), Vector2(50, 50));
 	entitiesAndComponents[ball->getID()][DRAW_COMPONENT] = new DrawComponent(ballSprite);
 	entitiesAndComponents[ball->getID()][COLLISION_COMPONENT] = new CollisionComponent();
-	entitiesAndComponents[ball->getID()][PHYSICS_COMPONENT] = new PhysicsComponent(Vector2(-200, 0), Vector2(0, 0));
+	entitiesAndComponents[ball->getID()][PHYSICS_COMPONENT] = new PhysicsComponent(Vector2(-400, 0), Vector2(0, 0));
 	entitiesAndComponents[ball->getID()][LOSE_COMPONENT] = new LoseComponent(WALL_LEFT);
 }
 
@@ -55,13 +55,20 @@ PongNode::PongNode()
 void PongNode::_bind_methods()
 {
   ClassDB::bind_method(D_METHOD("updateSystems", "deltaTime"), &PongNode::updateSystems);
-  ClassDB::bind_method(D_METHOD("_process", "delta"), &PongNode::_process);
+	ClassDB::bind_method(D_METHOD("_notification", "what"), &PongNode::_notification);
 }
 
 //TODO: Figure out why this is not being called
-void PongNode::_process(float delta) {
-	std::cout << "Process being called?\n";
-	updateSystems(delta);
+void PongNode::_notification(int what) {
+	std::cout << "Notification being called? " << what << "\n";
+	switch (what) {
+		case NOTIFICATION_PROCESS:
+			updateSystems(get_process_delta_time());
+			break;
+		
+	}
+	
+	
 }
 
 void PongNode::updateSystems(float deltaTime)
@@ -102,7 +109,6 @@ Component* PongNode::getComponent(int entityID, ComponentID componentID) {
 			}
 		}
 	
-	
 	return NULL;
 }
 
@@ -118,4 +124,8 @@ void PongNode::printMap() {
 		}
 	}
 
+}
+
+void PongNode::loadLoseScene() {
+	get_tree()->change_scene("LoseScene.tscn");
 }

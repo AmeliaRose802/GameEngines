@@ -44,11 +44,13 @@ protected:
 
 public:
   PongNode();
-
-  void _process(float delta);
+  void init();
+  void _notification(int what);
   void updateSystems(float deltaTime);
   Component *getComponent(int entityID, ComponentID componentID);
   void printMap();
+
+  void loadLoseScene();
 
 };
 

@@ -62,14 +62,37 @@ void PhysicsSystem::ReflectWallCollision(WallCollisionEvent *event) {
 
 void PhysicsSystem::ReflectCollision(CollisionEvent *event) {
 	PhysicsComponent *aPhysicsComponent = static_cast<PhysicsComponent *>(pongNode->getComponent(event->aID, ComponentID::PHYSICS_COMPONENT));
+	TransformComponent *aTransform = static_cast<TransformComponent *>(pongNode->getComponent(event->aID, ComponentID::TRANSFORM_COMPONENT));
+	PhysicsComponent *bPhysicsComponent = static_cast<PhysicsComponent *>(pongNode->getComponent(event->bID, ComponentID::PHYSICS_COMPONENT));
+	TransformComponent *bTransform = static_cast<TransformComponent *>(pongNode->getComponent(event->bID, ComponentID::TRANSFORM_COMPONENT));
+
+	//Calc for 
 	if (aPhysicsComponent) {
-		aPhysicsComponent->velocity = -aPhysicsComponent->velocity;
-		aPhysicsComponent->acceleration = -aPhysicsComponent->acceleration;
+		//aPhysicsComponent->velocity = -aPhysicsComponent->velocity;
+		//aPhysicsComponent->acceleration = -aPhysicsComponent->acceleration;
+		//https://gamedev.stackexchange.com/questions/4253/in-pong-how-do-you-calculate-the-balls-direction-when-it-bounces-off-the-paddl
+		float relativeIntersectY = (bTransform->location.y + (bTransform->size.y / 2)) - aTransform->location.y;
+		float normalizedRelativeIntersectionY = (relativeIntersectY / (bTransform->size.y / 2));
+		float bounceAngle = normalizedRelativeIntersectionY * aPhysicsComponent->MAX_BOUNCE_ANGLE;
+		aPhysicsComponent->velocity.y = aPhysicsComponent->getSpeed() * cos(bounceAngle);
+		aPhysicsComponent->velocity.x = aPhysicsComponent->getSpeed() * sin(bounceAngle);
+		
+		std::cout << "A: velocity x: " << aPhysicsComponent->velocity.x << " y: " << aPhysicsComponent->velocity.y << "\n";
+		std::cout << "YIntersect: " << relativeIntersectY << "Normalized Relitive Y: " << normalizedRelativeIntersectionY << "\n";
 	}
 
-	PhysicsComponent *bPhysicsComponent = static_cast<PhysicsComponent *>(pongNode->getComponent(event->bID, ComponentID::PHYSICS_COMPONENT));
+	
 	if (bPhysicsComponent) {
-		bPhysicsComponent->velocity = -bPhysicsComponent->velocity;
-		bPhysicsComponent->acceleration = -bPhysicsComponent->acceleration;
+		//bPhysicsComponent->velocity = -bPhysicsComponent->velocity;
+		//bPhysicsComponent->acceleration = -bPhysicsComponent->acceleration;
+		float relativeIntersectY = (aTransform->location.y + (aTransform->size.y / 2)) - bTransform->location.y;
+		float normalizedRelativeIntersectionY = (relativeIntersectY / (aTransform->size.y / 2));
+		float bounceAngle = normalizedRelativeIntersectionY * bPhysicsComponent->MAX_BOUNCE_ANGLE;
+		bPhysicsComponent->velocity.y = bPhysicsComponent->getSpeed() * cos(bounceAngle);
+		bPhysicsComponent->velocity.x = bPhysicsComponent->getSpeed() * sin(bounceAngle);
+
+		
+		std::cout << "B: velocity x: " << bPhysicsComponent->velocity.x << " y: " << bPhysicsComponent->velocity.y << "\n";
+		std::cout << "YIntersect: " << relativeIntersectY << "Normalized Relitive Y: " << normalizedRelativeIntersectionY << "\n";
 	}
 }

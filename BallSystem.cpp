@@ -22,6 +22,7 @@ void BallSystem::handleWallCollsion(WallCollisionEvent* event) {
 		if (loseComponent != NULL) {
 			if (event->wallLoc == loseComponent->badWall) {
 				std::cout << "****You lose\n";
+				pongNode->loadLoseScene();
 			}
 		}
 	} else {
