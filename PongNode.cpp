@@ -62,25 +62,25 @@ void PongNode::updateSystems(float deltaTime)
 	{
 
 		//If it has both a draw and a transform component then tell the draw system to draw it?
-		if (it->second.count(DRAW_COMPONENT) && it->second.count(TRANSFORM_COMPONENT))
+		if (it->second.count(COMPONENT_DRAW) && it->second.count(COMPONENT_TRANSFORM))
 		{
-			drawSystem->drawEntity(static_cast<DrawComponent *>(it->second[DRAW_COMPONENT]), static_cast<TransformComponent *>(it->second[TRANSFORM_COMPONENT]));
+			drawSystem->drawEntity(static_cast<DrawComponent *>(it->second[COMPONENT_DRAW]), static_cast<TransformComponent *>(it->second[COMPONENT_TRANSFORM]));
 		}
 		//If it has a userInput system, a transform and a physics system then allow the user to control the object
-		if (it->second.count(TRANSFORM_COMPONENT) && it->second.count(PLAYER_COMPONENT))
+		if (it->second.count(COMPONENT_TRANSFORM) && it->second.count(COMPONENT_PLAYER))
 		{
-			playerSystem->applyUserInput(static_cast<TransformComponent *>(it->second[TRANSFORM_COMPONENT]), static_cast<PlayerComponent *>(it->second[PLAYER_COMPONENT]));
+			playerSystem->applyUserInput(static_cast<TransformComponent *>(it->second[COMPONENT_TRANSFORM]), static_cast<PlayerComponent *>(it->second[COMPONENT_PLAYER]));
 		}
 		//If is has a position and physics then have it move
-		if (it->second.count(PHYSICS_COMPONENT) && it->second.count(TRANSFORM_COMPONENT))
+		if (it->second.count(COMPONENT_PHYSICS) && it->second.count(COMPONENT_TRANSFORM))
 		{
-			physicsSystem->update(deltaTime, static_cast<PhysicsComponent *>(it->second[PHYSICS_COMPONENT]), static_cast<TransformComponent *>(it->second[TRANSFORM_COMPONENT]));
+			physicsSystem->update(deltaTime, static_cast<PhysicsComponent *>(it->second[COMPONENT_PHYSICS]), static_cast<TransformComponent *>(it->second[COMPONENT_TRANSFORM]));
 		}
 		//Make a list of all collidable entities
-		if (it->second.count(TRANSFORM_COMPONENT) && it->second.count(COLLISION_COMPONENT))
+		if (it->second.count(COMPONENT_TRANSFORM) && it->second.count(COMPONENT_COLLISION))
 		{
-			collsionSystem->checkWallCollision(it->first, static_cast<TransformComponent *>(it->second[TRANSFORM_COMPONENT]));
-			collsionSystem->addColldable(it->first, static_cast<TransformComponent *>(it->second[TRANSFORM_COMPONENT]));
+			collsionSystem->checkWallCollision(it->first, static_cast<TransformComponent *>(it->second[COMPONENT_TRANSFORM]));
+			collsionSystem->addColldable(it->first, static_cast<TransformComponent *>(it->second[COMPONENT_TRANSFORM]));
 		}
 	}
 
@@ -112,11 +112,11 @@ void PongNode::setUpBall() {
 	Sprite *ballSprite = (Sprite *)(ballScene->instance());
 	add_child(ballSprite);
 
-	entitiesAndComponents[ballID][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(200, 200), Vector2(50, 50));
-	entitiesAndComponents[ballID][DRAW_COMPONENT] = new DrawComponent(ballSprite);
-	entitiesAndComponents[ballID][COLLISION_COMPONENT] = new CollisionComponent();
-	entitiesAndComponents[ballID][PHYSICS_COMPONENT] = new PhysicsComponent(Vector2(-400, 0), Vector2(0, 0));
-	entitiesAndComponents[ballID][LOSE_COMPONENT] = new LoseComponent(WALL_LEFT);
+	entitiesAndComponents[ballID][COMPONENT_TRANSFORM] = new TransformComponent(Vector2(200, 200), Vector2(50, 50));
+	entitiesAndComponents[ballID][COMPONENT_DRAW] = new DrawComponent(ballSprite);
+	entitiesAndComponents[ballID][COMPONENT_COLLISION] = new CollisionComponent();
+	entitiesAndComponents[ballID][COMPONENT_PHYSICS] = new PhysicsComponent(Vector2(-400, 0), Vector2(0, 0));
+	entitiesAndComponents[ballID][COMPONENT_LOSE] = new LoseComponent(WALL_LEFT);
 }
 void PongNode::setUpPaddle() {
 	int paddleID = ++nextEntityID;
@@ -126,10 +126,10 @@ void PongNode::setUpPaddle() {
 	Sprite *paddleSprite = (Sprite *)(paddleScene->instance());
 	add_child(paddleSprite);
 
-	entitiesAndComponents[paddleID][TRANSFORM_COMPONENT] = new TransformComponent(Vector2(30, 200), Vector2(20, 130));
-	entitiesAndComponents[paddleID][DRAW_COMPONENT] = new DrawComponent(paddleSprite);
-	entitiesAndComponents[paddleID][COLLISION_COMPONENT] = new CollisionComponent();
-	entitiesAndComponents[paddleID][PLAYER_COMPONENT] = new PlayerComponent(Vector2(5, 5));
+	entitiesAndComponents[paddleID][COMPONENT_TRANSFORM] = new TransformComponent(Vector2(30, 200), Vector2(20, 130));
+	entitiesAndComponents[paddleID][COMPONENT_DRAW] = new DrawComponent(paddleSprite);
+	entitiesAndComponents[paddleID][COMPONENT_COLLISION] = new CollisionComponent();
+	entitiesAndComponents[paddleID][COMPONENT_PLAYER] = new PlayerComponent(Vector2(5, 5));
 }
 
 

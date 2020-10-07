@@ -1,26 +1,30 @@
 #pragma once
 #include "Enums.h"
 
-class Event {
+class Event
+{
 protected:
 	EventType mType;
 
 public:
-	Event(EventType type) {
+	Event(EventType type)
+	{
 		mType = type;
 	}
 	
-	virtual EventType getType() { return mType; }
+	virtual EventType getType()
+	{
+		return mType;
+	}
 };
 
-class CollisionEvent : public Event {
-	
-
-	public:
+class CollisionEvent : public Event
+{
+public:
 	int aID;
 	int bID;
-	CollisionEvent(int idA, int idB) :
-			Event(EventType::EVENT_COLLISION)
+
+	CollisionEvent(int idA, int idB) : Event(EventType::EVENT_COLLISION)
 	{
 		aID = idA;
 		bID = idB;
@@ -28,13 +32,14 @@ class CollisionEvent : public Event {
 };
 
 
-class WallCollisionEvent : public Event {
+class WallCollisionEvent : public Event
+{
 
 public:
 	WallLocation wallLoc;
 	int entityID;
-	WallCollisionEvent(WallLocation loc, int id) :
-			Event(EventType::EVENT_WALL_COLLISON) {
+	WallCollisionEvent(WallLocation loc, int id) : Event(EventType::EVENT_WALL_COLLISON)
+	{
 		wallLoc = loc;
 		entityID = id;
 	};

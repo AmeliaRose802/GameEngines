@@ -33,7 +33,7 @@ void PhysicsSystem::receiveEvent(Event *event)
 
 void PhysicsSystem::reflectWallCollision(WallCollisionEvent *event)
 {
-	PhysicsComponent * physicsComponent = static_cast<PhysicsComponent*>(pongNode->getComponent(event->entityID, PHYSICS_COMPONENT));
+	PhysicsComponent * physicsComponent = static_cast<PhysicsComponent*>(pongNode->getComponent(event->entityID, COMPONENT_PHYSICS));
 	
 	//Do dumb collision with walls
 	if (physicsComponent != NULL) {
@@ -54,10 +54,10 @@ void PhysicsSystem::reflectWallCollision(WallCollisionEvent *event)
 //Do weird pong collision between objects
 void PhysicsSystem::reflectCollision(CollisionEvent *event)
 {
-	PhysicsComponent *aPhysicsComponent = static_cast<PhysicsComponent *>(pongNode->getComponent(event->aID, ComponentID::PHYSICS_COMPONENT));
-	TransformComponent *aTransform = static_cast<TransformComponent *>(pongNode->getComponent(event->aID, ComponentID::TRANSFORM_COMPONENT));
-	PhysicsComponent *bPhysicsComponent = static_cast<PhysicsComponent *>(pongNode->getComponent(event->bID, ComponentID::PHYSICS_COMPONENT));
-	TransformComponent *bTransform = static_cast<TransformComponent *>(pongNode->getComponent(event->bID, ComponentID::TRANSFORM_COMPONENT));
+	PhysicsComponent *aPhysicsComponent = static_cast<PhysicsComponent *>(pongNode->getComponent(event->aID, ComponentID::COMPONENT_PHYSICS));
+	TransformComponent *aTransform = static_cast<TransformComponent *>(pongNode->getComponent(event->aID, ComponentID::COMPONENT_TRANSFORM));
+	PhysicsComponent *bPhysicsComponent = static_cast<PhysicsComponent *>(pongNode->getComponent(event->bID, ComponentID::COMPONENT_PHYSICS));
+	TransformComponent *bTransform = static_cast<TransformComponent *>(pongNode->getComponent(event->bID, ComponentID::COMPONENT_TRANSFORM));
 
 	//Calc for 
 	if (aPhysicsComponent)

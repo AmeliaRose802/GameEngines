@@ -18,7 +18,7 @@ void BallSystem::receiveEvent(Event* event) {
 
 //When ball hits bad wall lose
 void BallSystem::handleWallCollsion(WallCollisionEvent* event) {
-	LoseComponent *loseComponent = static_cast<LoseComponent *>(pongNode->getComponent(event->entityID, LOSE_COMPONENT));
+	LoseComponent *loseComponent = static_cast<LoseComponent *>(pongNode->getComponent(event->entityID, COMPONENT_LOSE));
 
 	if (loseComponent != NULL) {
 		if (event->wallLoc == loseComponent->badWall) {
