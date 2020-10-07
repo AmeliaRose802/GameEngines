@@ -1,27 +1,22 @@
 #pragma once
-#include "PhysicsComponent.h"
+
 #include "System.h"
-#include "TransformComponent.h"
 #include "Events.h"
 
-
-class EventSystem;
-class PongNode;
 class CollisionEvent;
+class TransformComponent;
+class PhysicsComponent;
 
-class PhysicsSystem : public System {
-
-	
-	PongNode *pongNode;
+class PhysicsSystem : public System
+{
+	void reflectWallCollision(WallCollisionEvent *event);
+	void reflectCollision(CollisionEvent *event);
+	void setPongReflection(PhysicsComponent * aPhysicsComponent, TransformComponent * aTransform, PhysicsComponent * bPhysicsComponent, TransformComponent  *bTransform);
 
 public:
 	PhysicsSystem(EventSystem *eventSystem, PongNode * pongNode);
-
+	~PhysicsSystem() {}
 	void update(float deltaTime, PhysicsComponent *physicsComponent, TransformComponent *transformComponent);
-
 	void receiveEvent(Event *event);
-
-
-	void ReflectWallCollision(WallCollisionEvent *event);
-	void ReflectCollision(CollisionEvent *event);
+	
 };

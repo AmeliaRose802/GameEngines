@@ -1,19 +1,9 @@
 //insert the Headername here
-#ifndef FOLLOWMOUSENODE_H
-#define FOLLOWMOUSENODE_H
+#ifndef PONGNODE_H
+#define PONGNODE_H
 
-#include "scene/main/node.h"
 #include "scene/2d/node_2d.h"
-#include "scene/2d/sprite.h"
-
-#include "../../core/io/resource_loader.h"
-#include "../../scene/resources/packed_scene.h"
-
-#include "System.h"
-#include "Entity.h"
-
 #include "Enums.h"
-
 #include <string>
 #include <vector>
 #include <map>
@@ -24,20 +14,25 @@ class PlayerSystem;
 class CollisionSystem;
 class EventSystem;
 class BallSystem;
+class ResourceLoader;
+class Component;
 
 class PongNode : public Node2D {
 	GDCLASS(PongNode, Node2D);
 
 private:
-	Entity * paddle;
-	Entity *ball;
 	EventSystem *eventSystem;
-	std::map<int, std::map<int, Component *>> entitiesAndComponents;
+	
 	DrawSystem *drawSystem;
 	PhysicsSystem *physicsSystem;
 	PlayerSystem *playerSystem;
 	CollisionSystem *collsionSystem;
 	BallSystem *ballSystem;
+	static int nextEntityID;
+	ResourceLoader *rl;
+	std::map<int, std::map<int, Component *> > entitiesAndComponents;
+	void setUpBall();
+	void setUpPaddle();
 
 protected:
   static void _bind_methods();
@@ -47,11 +42,8 @@ public:
   void init();
   void _notification(int what);
   void updateSystems(float deltaTime);
-  Component *getComponent(int entityID, ComponentID componentID);
-  void printMap();
-
   void loadLoseScene();
-
+  Component *getComponent(int entityID, ComponentID componentID);
 };
 
 #endif

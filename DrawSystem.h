@@ -1,11 +1,12 @@
 #pragma once
 #include "System.h"
-#include "DrawComponent.h"
-#include "TransformComponent.h"
+
+class DrawComponent;
+class TransformComponent;
 
 
 class DrawSystem : public System {
 public:
-	DrawSystem();
+	DrawSystem(EventSystem * eventSystem, PongNode * pongNode);
 	void drawEntity(DrawComponent *drawComponent, TransformComponent *transformComponent);
 };

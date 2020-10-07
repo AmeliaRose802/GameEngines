@@ -2,25 +2,24 @@
 #include <map>
 #include <vector>
 #include "Component.h"
-#include "Entity.h"
 
+//Foward declare
+class EventSystem;
+class PongNode;
 class Event;
 
-class System {
+//Base class for systems. All systems can receve events and have refrences to the event system and the pong node
+class System
+{
 protected:
-	//std::map<int, Component *> components;
-	//std::vector<Entity *> entities;
+	PongNode *pongNode;
+	EventSystem *eventSystem;
 
 public:
-	System() {}
+	System(EventSystem * theEventSystem, PongNode * thePongNode) {
+		pongNode = thePongNode;
+		eventSystem = theEventSystem;
+	}
+	~System(){};
 	virtual void receiveEvent(Event *event){}; 
-	/*
-	virtual void removeComponent(int id);
-	virtual void addComponent(int id, Component * component);
-	void regesterEntity(Entity * entity);*/
-
-	/*
-	virtual Component* getComponent(int id);
-	virtual void update(float deltaTime) = 0;*/
-	
 };
