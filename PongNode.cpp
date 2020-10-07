@@ -11,8 +11,6 @@
 #include "../../core/io/resource_loader.h"
 #include "../../scene/resources/packed_scene.h"
 
-#include "Enums.h"
-
 PongNode::PongNode()
 {
 	init();
@@ -59,7 +57,7 @@ void PongNode::_notification(int what)
 
 void PongNode::updateSystems(float deltaTime)
 {
-	std::map<int, std::map<int, Component *>>::iterator it;
+	std::map<int, std::map<ComponentID, Component *>>::iterator it;
 	for (it = entitiesAndComponents.begin(); it != entitiesAndComponents.end(); ++it)
 	{
 
@@ -132,4 +130,41 @@ void PongNode::setUpPaddle() {
 	entitiesAndComponents[paddleID][DRAW_COMPONENT] = new DrawComponent(paddleSprite);
 	entitiesAndComponents[paddleID][COLLISION_COMPONENT] = new CollisionComponent();
 	entitiesAndComponents[paddleID][PLAYER_COMPONENT] = new PlayerComponent(Vector2(5, 5));
+}
+
+
+PongNode::~PongNode() {
+
+	delete eventSystem;
+	eventSystem = NULL;
+
+	delete drawSystem;
+	drawSystem = NULL;
+
+	delete physicsSystem;
+	physicsSystem = NULL;
+
+	delete playerSystem;
+	playerSystem = NULL;
+
+	delete ballSystem;
+	ballSystem = NULL;
+
+	delete collsionSystem;
+	collsionSystem = NULL;
+
+	delete ballSystem;
+	ballSystem = NULL;
+
+	delete rl;
+	rl = NULL;
+
+	std::map<int, std::map<ComponentID, Component *> >::iterator it;
+
+	for (it = entitiesAndComponents.begin(); it != entitiesAndComponents.end(); ++it) {
+		std::map<ComponentID, Component *>::iterator it2;
+		for (it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
+			delete it2->second;
+		}
+	}
 }

@@ -8,6 +8,7 @@
 #include <vector>
 #include <map>
 
+//Foward declare
 class PhysicsSystem;
 class DrawSystem;
 class PlayerSystem;
@@ -18,11 +19,9 @@ class ResourceLoader;
 class Component;
 
 class PongNode : public Node2D {
-	GDCLASS(PongNode, Node2D);
-
 private:
+	GDCLASS(PongNode, Node2D);
 	EventSystem *eventSystem;
-	
 	DrawSystem *drawSystem;
 	PhysicsSystem *physicsSystem;
 	PlayerSystem *playerSystem;
@@ -30,7 +29,8 @@ private:
 	BallSystem *ballSystem;
 	static int nextEntityID;
 	ResourceLoader *rl;
-	std::map<int, std::map<int, Component *> > entitiesAndComponents;
+	std::map<int, std::map<ComponentID, Component *> > entitiesAndComponents;
+
 	void setUpBall();
 	void setUpPaddle();
 
@@ -39,6 +39,7 @@ protected:
 
 public:
   PongNode();
+  ~PongNode();
   void init();
   void _notification(int what);
   void updateSystems(float deltaTime);
