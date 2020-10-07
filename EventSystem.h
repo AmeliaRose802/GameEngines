@@ -13,7 +13,8 @@ private:
 	std::map<EventType, std::vector<System *> > listeners;
 
 public:
+	~EventSystem(){};
 	void subscribe(EventType eventType, System *system);
-	void unsubscribe(EventType eventType, System *system);
+	//void unsubscribe(EventType eventType, System *system);
 	void dispatchEvent(Event * theEvent);
 };

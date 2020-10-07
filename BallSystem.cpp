@@ -26,3 +26,7 @@ void BallSystem::handleWallCollsion(WallCollisionEvent* event) {
 		}
 	}
 }
+
+BallSystem ::~BallSystem()
+{
+}

@@ -80,3 +80,6 @@ void PhysicsSystem::setPongReflection(PhysicsComponent * aPhysicsComponent, Tran
 	aPhysicsComponent->velocity.y = aPhysicsComponent->getSpeed() * cos(bounceAngle);
 	aPhysicsComponent->velocity.x = aPhysicsComponent->getSpeed() * sin(bounceAngle);
 }
+
+PhysicsSystem ::~PhysicsSystem() {
+}

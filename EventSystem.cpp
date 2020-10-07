@@ -25,8 +25,10 @@ void EventSystem::dispatchEvent(Event* theEvent)
 }
 
 //Remove a given system from receving messages about a given eventtype
+//No idea why, but this causes the entire engine to crash if called
+/*
 void EventSystem::unsubscribe(EventType eventType, System *system)
 {
 	auto it = find(listeners[eventType].begin(), listeners[eventType].end(), system);
 	listeners[eventType].erase(it);
-}
+}*/

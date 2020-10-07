@@ -15,7 +15,7 @@ class PhysicsSystem : public System
 
 public:
 	PhysicsSystem(EventSystem *eventSystem, PongNode * pongNode);
-	~PhysicsSystem() {}
+	~PhysicsSystem();
 	void update(float deltaTime, PhysicsComponent *physicsComponent, TransformComponent *transformComponent);
 	void receiveEvent(Event *event);
 	

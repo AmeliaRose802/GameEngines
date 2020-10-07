@@ -7,7 +7,7 @@ class BallSystem : public System {
 
 public:
 	BallSystem(EventSystem *eventSystem, PongNode *thePongNode);
-	~BallSystem(){};
+	~BallSystem();
 	void receiveEvent(Event *event);
 	void handleWallCollsion(WallCollisionEvent *event);
 };
