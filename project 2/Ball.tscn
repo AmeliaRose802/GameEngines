@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://111-1116939_soccer-ball-png-background-image.png" type="Texture" id=1]
+
+[node name="Ball" type="Sprite"]
+position = Vector2( 273.121, 288.152 )
+scale = Vector2( 0.0301759, 0.0292438 )
+texture = ExtResource( 1 )

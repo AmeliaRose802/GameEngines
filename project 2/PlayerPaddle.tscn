@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://White_box_35x100.png" type="Texture" id=1]
+
+[node name="PlayerPaddle" type="Sprite"]
+position = Vector2( 18.8256, 299.868 )
+scale = Vector2( 0.0118659, 0.190152 )
+texture = ExtResource( 1 )

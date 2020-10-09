@@ -10,6 +10,8 @@
 #include "scene/2d/sprite.h"
 #include "../../core/io/resource_loader.h"
 #include "../../scene/resources/packed_scene.h"
+#include <core\engine.h>
+
 
 PongNode::PongNode()
 {
@@ -31,6 +33,7 @@ void PongNode::init()
 
 	setUpBall();
 	setUpPaddle();
+	set_process(true);
 }
 
 //Bind all your methods used in this class
@@ -49,7 +52,10 @@ void PongNode::_notification(int what)
 			//init();
 			break;
 		case NOTIFICATION_PROCESS:
-			//updateSystems(get_process_delta_time());
+			std::cout << "Process being called\n";
+			if (!Engine::get_singleton()->is_editor_hint()) {
+				updateSystems(get_process_delta_time());
+			}
 			break;
 	}
 	
