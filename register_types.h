@@ -1,5 +1,5 @@
-void register_ECSModule_types();
-void unregister_ECSModule_types();
+void register_SubdivisionNode_types();
+void unregister_SubdivisionNode_types();
 
 /*
 	void register_MODULNAME_types();

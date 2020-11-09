@@ -1,10 +1,10 @@
 #include "register_types.h"
 #include "core/class_db.h"
-#include "PongNode.h"
+#include "subdivisionNode.h"
 
-void register_ECSModule_types() {
-	ClassDB::register_class<PongNode>();
+void register_SubdivisionNode_types() {
+	ClassDB::register_class<SubdivisionNode>();
 }
 
-void unregister_ECSModule_types() {
+void unregister_SubdivisionNode_types() {
 }
