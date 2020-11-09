@@ -168,7 +168,7 @@ void SubdivisionNode::catmull_clark(int numDivisions) {
 
 	}
 
-	/*
+	
 	//Modify existing vertices based on calculated edge points
 	map<int, VertexData>::iterator it;
 	for (it = verticeData.begin(); it != verticeData.end(); it++) {
@@ -186,7 +186,7 @@ void SubdivisionNode::catmull_clark(int numDivisions) {
 		Vector3 weightedAvg = it->second.vertex->loc * m1 + m2 * avgFacePoint + m3 * avgEdgePoint;
 
 		it->second.vertex->loc = weightedAvg;
-	}*/
+	}
 
 	he_mesh = newMesh;
 
